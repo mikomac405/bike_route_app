@@ -27,6 +27,9 @@ class _MyAppState extends State<MyApp> {
   final TextEditingController textController1 = TextEditingController();
   final TextEditingController textController2 = TextEditingController();
 
+  GeoPoint? lastPoint1;
+  GeoPoint? lastPoint2;
+
   // Variable to track the last active TextField
   FocusNode? lastActiveFocusNode;
 
@@ -44,20 +47,42 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     // Initialize the mapController in initState
     mapController = MapController(
-      initPosition: GeoPoint(latitude: 47.4358055, longitude: 8.4737324),
-      areaLimit: const BoundingBox(
-        east: 10.4922941,
-        north: 47.8084648,
-        south: 45.817995,
-        west: 5.9559113,
-      ),
+      initPosition: GeoPoint(latitude: 50.0496833, longitude: 19.944544),
     );
+
     mapController.listenerMapSingleTapping.addListener(() {
       if (mapController.listenerMapSingleTapping.value != null) {
         var data = mapController.listenerMapSingleTapping.value!;
-        inputDataToLastActiveField("${data.latitude} ${data.longitude}");
+        
+
+        if(lastActiveFocusNode == focusNode1){
+          if(lastPoint1 == null){
+            mapController.addMarker(data, markerIcon: const MarkerIcon(icon: Icon(
+              Icons.location_on, // Use the built-in location icon
+              color: Colors.blue,  // Set the color to red
+              size: 50.0,        // Adjust the size as needed
+            ),));
+          } else{
+            mapController.changeLocationMarker(oldLocation: lastPoint1!, newLocation: data);
+          }
+          inputDataToLastActiveField("${data.latitude} ${data.longitude}");
+          lastPoint1 = data;
+        } else if (lastActiveFocusNode == focusNode2){
+          if(lastPoint2 == null){
+            mapController.addMarker(data, markerIcon: const MarkerIcon(icon: Icon(
+              Icons.location_on, // Use the built-in location icon
+              color: Colors.red,  // Set the color to red
+              size: 50.0,        // Adjust the size as needed
+            ),));
+          } else{
+            mapController.changeLocationMarker(oldLocation: lastPoint2!, newLocation: data);
+          }
+          inputDataToLastActiveField("${data.latitude} ${data.longitude}");
+          lastPoint2 = data;
       }
-    });
+    }
+  });
+  
   }
 
   @override
@@ -76,7 +101,7 @@ class _MyAppState extends State<MyApp> {
       title: 'XD',
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Daj kurwie miodu'),
+          title: const Text('CycloSafe Navigator'),
         ),
         body: Row(
           children: [
@@ -143,8 +168,8 @@ class _MyAppState extends State<MyApp> {
                     unFollowUser: false,
                   ),
                   zoomOption: const ZoomOption(
-                    initZoom: 8,
-                    minZoomLevel: 3,
+                    initZoom: 13,
+                    minZoomLevel: 13,
                     maxZoomLevel: 19,
                     stepZoom: 1.0,
                   ),
