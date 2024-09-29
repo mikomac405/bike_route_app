@@ -6,6 +6,9 @@ import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 
+//const apiUrl = "470d-89-171-58-3.ngrok-free.app";
+const apiUrl = "localhost:8000";
+
 void main() {
   runApp(const MyApp());
 }
@@ -126,8 +129,7 @@ class MyAppState extends State<MyApp> {
 
     var client = http.Client();
     try {
-      var response = await client.post(
-          Uri.https('470d-89-171-58-3.ngrok-free.app', 'get_path'),
+      var response = await client.post(Uri.http(apiUrl, 'get_path'),
           headers: {"Content-Type": "application/json"},
           body: jsonEncode({
             "origin_lat": textControllerLat1.text,
@@ -265,4 +267,3 @@ class MyAppState extends State<MyApp> {
     );
   }
 }
-
