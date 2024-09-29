@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:bike_route_app/map.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 
 void main() {
@@ -231,6 +232,25 @@ class MyAppState extends State<MyApp> {
                       onPressed: submit,
                       child: const Text('Submit'),
                     ),
+                    const SizedBox(height: 32),
+                    // Add SVG and text in the same column
+                    Container(
+                      padding: const EdgeInsets.all(4.0),
+                      color: Colors.transparent, // Background color for the SVG
+                      child: SvgPicture.asset(
+                        'assets/logo2_final.svg',
+                        height: 250,
+                        width: 250,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    const Text(
+                      'made by: QuantumQuirks',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -245,3 +265,4 @@ class MyAppState extends State<MyApp> {
     );
   }
 }
+
